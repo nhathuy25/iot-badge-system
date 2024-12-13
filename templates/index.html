@@ -1,220 +1,196 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Project IoT - 5A ACAD 2024-2025</title>
-    <link rel="stylesheet" href="/static/style.css" />
-    <script src="/static/script.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IoT Project</title>
+    <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <!-- Navigation Bar -->
+    <header>
+      <h1>IoT Project</h1>
+      <p>Innovating the Future with IoT Solutions</p>
+    </header>
+
     <nav>
-      <div id="home">
-        <div class="profile_name">
-          Project IoT - NFC badge verification system
-          <div class="contact_info">
-            <img src="static/html_finalprojimages/envelope.png" alt="Email Icon" />
-            huu_nhat_huy.nguyen@insa-cvl.fr
-          </div>
-        </div>
-        <div class="topdiv">
-          <a class="topmenu" href="project.html">About</a>
-          <a class="topmenu" href="#team">Team</a>
-          <a class="topmenu" href="#technologies">Technologies</a>
-          <a class="topmenu" href="#milestones">Milestones</a>
-          <a class="topmenu" href="/users">Database Users</a>
-          <a class="topmenu" href="/attendance">Database attendance</a>
-        </div>
-        
-      </div>
+      <a href="/templates/index.html">Home</a>
+      <a href="/templates/members.html">Members</a>
+      <a href="/users">Users</a>
+      <a href="/attendance">History</a>
     </nav>
 
-    <!-- About Project -->
-    <section id="about-project" class="container">
-      <div>
-        <h1>About the Project</h1>
-        <p>About</p>
-      </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team">
-      <h2>Team Members</h2>
-      <div class="all_team">
-        <div class="team_member">
-          <h6>Huy NGUYEN</h6>
-          <img src="static/img/members/huy.png" />
-          <p>Web Developper</p>
+    <main>
+      <section id="intro-section">
+        <h2>Welcome to the IoT Project!</h2>
+        <p>
+          Please navigate using the links above to learn more about our project.
+        </p>
+      </section>
+      <div class="main-content">
+        <div class="section" id="about">
+          <h2>Giới Thiệu</h2>
+          <p>
+            Đây là phần giới thiệu về dự án, nơi bạn có thể mô tả mục tiêu và
+            mục đích của dự án. Dự án của chúng tôi hướng tới việc tạo ra những
+            giải pháp sáng tạo và hiệu quả cho cộng đồng.
+          </p>
         </div>
-        <div class="team_member">
-          <h6>Khoa VU</h6>
-          <img src="static/img/members/unknown.jpeg" />
-          <p>Backend Programmer</p>
+        <div class="section" id="features">
+          <h2>Tính Năng</h2>
+          <p>
+            Đây là phần mô tả các tính năng nổi bật của dự án mà người dùng sẽ
+            tìm thấy. Chúng tôi cung cấp các tính năng ưu việt và dễ sử dụng cho
+            người dùng cuối.
+          </p>
         </div>
-        <div class="team_member">
-          <h6>Van Hieu HA</h6>
-          <img src="static/img/members/unknown.jpeg" />
-          <p>RaspberryPi Programmer</p>
-        </div>
-        <div class="team_member">
-          <h6>Quoc Cuong NGUYEN</h6>
-          <img src="static/img/members/unknown.jpeg" />
-          <p>RaspberryPi Programmer</p>
-        </div>
-        <div class="team_member">
-          <h6>Quoc Tan NGUYEN</h6>
-          <img src="static/img/members/unknown.jpeg" />
-          <p>Web Developper</p>
+        <div class="section" id="contact">
+          <h2>Liên Hệ</h2>
+          <p>
+            Đây là phần liên hệ để người dùng có thể liên lạc với bạn hoặc nhóm
+            phát triển dự án. Đừng ngần ngại gửi email hoặc gọi cho chúng tôi!
+          </p>
         </div>
       </div>
-    </section>
 
-    <!-- Technologies Section -->
-    <section id="technologies">
-      <h2>Technologies</h2>
-      <div class="all_skills">
-        <div class="skill">
-          <img src="static/html_finalprojimages/html5.png" />
-          <h6>HTML5</h6>
+      <div class="main-content">
+        <div class="section-title">
+          <h2>Các Mốc Quan Trọng</h2>
         </div>
-        <div class="skill">
-          <img src="static/html_finalprojimages/CSS3.png" />
-          <h6>CSS</h6>
-        </div>
-        <div class="skill">
-          <img src="static/html_finalprojimages/js.jpeg" />
-          <h6>JavaScript</h6>
-        </div>
-        <div class="skill">
-          <img src="static/html_finalprojimages/raspberrypi.png" />
-          <h6>Raspberry Pi</h6>
-        </div>
-        <div class="skill">
-          <img src="static/html_finalprojimages/flask.png" />
-          <h6>Flask</h6>
-        </div>
-      </div>
-    </section>
-
-    <!-- Projects -->
-    <section class="projects" id="projects">
-      <h2>Projects</h2>
-      <div style="clear: both"></div>
-
-      <div id="projects-container" class="projects-container">
-        <div class="project-card">
-          <h3>Weather Information</h3>
-          <ul>
-            <li>
-              Developed a secure website used for searching weather Information
-              using HTML, CSS, JavaScript and IBM Watson Assistant
-            </li>
-          </ul>
-        </div>
-        <hr />
-        <div class="project-card">
-          <h3>Music Searching Website</h3>
-          <ul>
-            <li>
-              Developed a website to find music and recommend others playlist
-              with the same genre.
-            </li>
-          </ul>
-        </div>
-        <hr />
-        <div class="project-card">
-          <h3>Thrifting Clothes Website</h3>
-          <ul>
-            <li>
-              Created a styled multi-page website for buying and selling old
-              clothes integrated it with a shopping cart, using stripe for
-              payment gateway
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <div style="clear: both"></div>
-
-    <!-- Recommendations -->
-    <section id="recommendations">
-      <h2>Recommendations</h2>
-      <div style="clear: both"></div>
-      <div class="all_recommendations" id="all_recommendations">
-        <div class="recommendation">
-          <span>&#8220;</span>
-          Huy Nguyen's rapid grasp of complex concepts and commitment to
-          teamwork make him a standout full-stack developer. His code reviews
-          offer valuable insights, while his clear communication bridges
-          technical and non-technical gaps. Huy's hunger for knowledge and
-          dedication to growth set him apart.
-          <span>&#8221;</span>
-        </div>
-        <div class="recommendation">
-          <span>&#8220;</span>
-          Huy Nguyen's innovative thinking and design skills have elevated our
-          projects. His passion for experimentation, collaborative spirit, and
-          commitment to learning make him an invaluable asset. Huy's ability to
-          push boundaries makes him an exceptional full-stack developer.
-
-          <span>&#8221;</span>
-        </div>
-        <div class="recommendation">
-          <span>&#8220;</span>
-          Huy Nguyen's dependable nature, attention to detail, and adaptability
-          have greatly benefited our team. His mentorship and collaborative
-          approach foster a positive environment. Huy's commitment to continuous
-          improvement and humility make him an outstanding full-stack developer.
-
-          <span>&#8221;</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recommendation Form -->
-    <section id="contact">
-      <div class="flex_center">
-        <fieldset>
-          <legend class="introduction">Leave a Recommendation</legend>
-          <input type="text" placeholder="Name (Optional)" /> <br />
-          <textarea
-            id="new_recommendation"
-            cols="500"
-            rows="10"
-            placeholder="Message"
-          ></textarea>
-          <div class="flex_center">
-            <button id="recommend_btn" onclick="addRecommendation()">
-              Submit
-            </button>
+        <div class="timeline">
+          <div class="timeline-event">
+            <div class="timeline-content">
+              <div class="event-text">
+                <h3>Bắt đầu dự án</h3>
+                <p class="timeline-date">Tháng 1, 2024</p>
+                <p>
+                  Chúng tôi đã bắt đầu nghiên cứu và lập kế hoạch cho dự án, xác
+                  định mục tiêu và các công cụ sẽ sử dụng.
+                </p>
+              </div>
+              <div class="event-image">
+                <img src="image1.jpg" alt="Bắt đầu dự án" />
+              </div>
+            </div>
           </div>
-        </fieldset>
+
+          <div class="timeline-arrow"></div>
+
+          <div class="timeline-event">
+            <div class="timeline-content">
+              <div class="event-text">
+                <h3>Hoàn thành giai đoạn thiết kế</h3>
+                <p class="timeline-date">Tháng 3, 2024</p>
+                <p>
+                  Đội ngũ phát triển hoàn thành thiết kế tổng thể và các phần
+                  mềm cần thiết cho dự án.
+                </p>
+              </div>
+              <div class="event-image">
+                <img src="image2.jpg" alt="Hoàn thành thiết kế" />
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-arrow"></div>
+
+          <div class="timeline-event">
+            <div class="timeline-content">
+              <div class="event-text">
+                <h3>Thực hiện mã hóa và triển khai</h3>
+                <p class="timeline-date">Tháng 6, 2024</p>
+                <p>
+                  Quá trình mã hóa chính thức bắt đầu, các tính năng của dự án
+                  được triển khai trên môi trường thử nghiệm.
+                </p>
+              </div>
+              <div class="event-image">
+                <img src="image3.jpg" alt="Mã hóa và triển khai" />
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-arrow"></div>
+
+          <div class="timeline-event">
+            <div class="timeline-content">
+              <div class="event-text">
+                <h3>Hoàn thành giai đoạn thử nghiệm</h3>
+                <p class="timeline-date">Tháng 9, 2024</p>
+                <p>
+                  Chúng tôi đã hoàn thành các thử nghiệm cuối cùng và sửa chữa
+                  các lỗi phát hiện trong quá trình kiểm tra chất lượng.
+                </p>
+              </div>
+              <div class="event-image">
+                <img src="image4.jpg" alt="Thử nghiệm" />
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-arrow"></div>
+
+          <div class="timeline-event">
+            <div class="timeline-content">
+              <div class="event-text">
+                <h3>Ra mắt chính thức</h3>
+                <p class="timeline-date">Tháng 12, 2024</p>
+                <p>
+                  Dự án chính thức được ra mắt, người dùng có thể truy cập và sử
+                  dụng các tính năng của hệ thống.
+                </p>
+              </div>
+              <div class="event-image">
+                <img src="image5.jpg" alt="Ra mắt" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <!-- Scroll up button -->
-    <div class="iconbutton">
-      <a href="#home">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="white"
-          width="63px"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15 11.25l-3-3m0 0l-3 3m3-3v7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      </a>
-    </div>
+      <div class="main-content">
+        <h2>Các Công Cụ Phát Triển</h2>
+        <div class="tools-container">
+          <div class="tool-card">
+            <img src="https://via.placeholder.com/100" alt="Python" />
+            <h3>Python</h3>
+            <p>
+              Python là ngôn ngữ lập trình mạnh mẽ và dễ học, được sử dụng rộng
+              rãi trong phát triển web, phân tích dữ liệu, học máy và nhiều lĩnh
+              vực khác.
+            </p>
+          </div>
+          <div class="tool-card">
+            <img src="https://via.placeholder.com/100" alt="Flask" />
+            <h3>Flask</h3>
+            <p>
+              Flask là một framework web nhẹ dành cho Python, giúp xây dựng các
+              ứng dụng web nhanh chóng và dễ dàng.
+            </p>
+          </div>
+          <div class="tool-card">
+            <img src="https://via.placeholder.com/100" alt="Git" />
+            <h3>Git</h3>
+            <p>
+              Git là hệ thống kiểm soát phiên bản phân tán giúp quản lý mã nguồn
+              của dự án, cho phép theo dõi và phối hợp công việc giữa các lập
+              trình viên.
+            </p>
+          </div>
+          <div class="tool-card">
+            <img src="https://via.placeholder.com/100" alt="Docker" />
+            <h3>Docker</h3>
+            <p>
+              Docker giúp đóng gói các ứng dụng và môi trường của chúng vào
+              trong các container để dễ dàng triển khai và quản lý trên bất kỳ
+              hệ thống nào.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
 
-    <div class="popup" id="popup" class="flex_center">
-      <img src="static/html_finalprojimages/checkmark--outline.svg" />
-      <h3>Thank you for leaving a positive recommandation!</h3>
-      <button onclick="showPopup(false)">Ok</button>
-    </div>
+    <footer>
+      <p>&copy; 2024 IoT Project Team. All rights reserved.</p>
+    </footer>
   </body>
 </html>
