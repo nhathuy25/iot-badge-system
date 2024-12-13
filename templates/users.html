@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users and Attendance Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Welcome to the Users and Attendance Page</h1>
+        <p>Manage user registrations and attendance below</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('members') }}">Members</a>
+        <a href="{{ url_for('users') }}">Users</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Tables container to arrange two sections side by side -->
+        <div class="tables-container">
+            <!-- User Registration Table -->
+            <section class="registration-section table-wrapper">
+                <h2>Danh sách thông tin đăng ký</h2>
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>ID Người Dùng</th>
+                            <th>ID Badge</th>
+                            <th>Họ và Tên</th>
+                            <th>Ảnh Cá Nhân</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dòng dữ liệu mẫu -->
+                        <tr>
+                            <td>1</td>
+                            <td>Badge1234</td>
+                            <td>Nguyễn Văn A</td>
+                            <td><img src="{{ url_for('static', filename='img/person.jpg') }}" alt="Ảnh Nguyễn Văn A"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Badge5678</td>
+                            <td>Trần Thị B</td>
+                            <td><img src="{{ url_for('static', filename='img/person.jpg') }}" alt="Ảnh Nguyễn Văn A"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Attendance Table -->
+            <section class="attendance-section table-wrapper">
+                <h2>Danh sách attendance</h2>
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>ID Người Dùng</th>
+                            <th>ID Badge</th>
+                            <th>Họ và Tên</th>
+                            <th>Thời Gian Đăng Nhập</th>
+                            <th>Ảnh Cá Nhân</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dòng dữ liệu mẫu -->
+                        <tr>
+                            <td>1</td>
+                            <td>Badge1234</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>2024-12-11 10:30</td>
+                            <td><img src="{{ url_for('static', filename='img/person.jpg') }}" alt="Ảnh Nguyễn Văn A"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Badge5678</td>
+                            <td>Trần Thị B</td>
+                            <td>2024-12-11 11:00</td>
+                            <td><img src="{{ url_for('static', filename='img/person.jpg') }}" alt="Ảnh Nguyễn Văn A"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Users and Attendance Page. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
