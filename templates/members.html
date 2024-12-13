@@ -1,51 +1,58 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Giới Thiệu Thành Viên</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
     <header>
-        <h1>Đội Ngũ Dự Án</h1>
-        <p>Chúng tôi là những người đứng sau dự án này!</p>
+      <h1>Đội Ngũ Dự Án</h1>
+      <p>Chúng tôi là những người đứng sau dự án này!</p>
     </header>
 
     <nav>
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('members') }}">Members</a>
-        <a href="{{ url_for('users') }}">Users</a>
+      <a href="/templates/index.html">Home</a>
+      <a href="/templates/members.html">Members</a>
+      <a href="/templates/users.html">Users</a>
     </nav>
 
     <section class="main-content">
-        <h1>Thành Viên Của Chúng Tôi</h1>
-        <div class="team-container">
-            <div class="team-member">
-                <img src="https://via.placeholder.com/150" alt="Thành viên 1">
-                <h3>Nguyễn Văn A</h3>
-                <p>Vị trí: Quản lý dự án</p>
-                <p>Nguyễn Văn A là người đứng đầu dự án, điều phối các hoạt động và đảm bảo tiến độ.</p>
-            </div>
-            <div class="team-member">
-                <img src="https://via.placeholder.com/150" alt="Thành viên 2">
-                <h3>Trần Thị B</h3>
-                <p>Vị trí: Kỹ sư phần mềm</p>
-                <p>Trần Thị B là chuyên gia phát triển phần mềm, chịu trách nhiệm mã hóa và tối ưu hóa hệ thống.</p>
-            </div>
-            <div class="team-member">
-                <img src="https://via.placeholder.com/150" alt="Thành viên 3">
-                <h3>Phan Văn C</h3>
-                <p>Vị trí: Chuyên gia AI</p>
-                <p>Phan Văn C là người phát triển các mô hình học máy và trí tuệ nhân tạo cho dự án.</p>
-            </div>
+      <h1>Thành Viên Của Chúng Tôi</h1>
+      <div class="team-container">
+        <div class="team-member">
+          <img src="https://via.placeholder.com/150" alt="Thành viên 1" />
+          <h3>Nguyễn Văn A</h3>
+          <p>Vị trí: Quản lý dự án</p>
+          <p>
+            Nguyễn Văn A là người đứng đầu dự án, điều phối các hoạt động và đảm
+            bảo tiến độ.
+          </p>
         </div>
+        <div class="team-member">
+          <img src="https://via.placeholder.com/150" alt="Thành viên 2" />
+          <h3>Trần Thị B</h3>
+          <p>Vị trí: Kỹ sư phần mềm</p>
+          <p>
+            Trần Thị B là chuyên gia phát triển phần mềm, chịu trách nhiệm mã
+            hóa và tối ưu hóa hệ thống.
+          </p>
+        </div>
+        <div class="team-member">
+          <img src="https://via.placeholder.com/150" alt="Thành viên 3" />
+          <h3>Phan Văn C</h3>
+          <p>Vị trí: Chuyên gia AI</p>
+          <p>
+            Phan Văn C là người phát triển các mô hình học máy và trí tuệ nhân
+            tạo cho dự án.
+          </p>
+        </div>
+      </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 Dự Án của Chúng Tôi. Tất cả quyền lợi được bảo lưu.</p>
+      <p>&copy; 2024 Dự Án của Chúng Tôi. Tất cả quyền lợi được bảo lưu.</p>
     </footer>
-
-</body>
+  </body>
 </html>
