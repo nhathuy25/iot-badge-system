@@ -3,6 +3,7 @@ import time
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import mysql.connector
+import logging
 
 #importation pour la Camera
 from picamera import PiCamera
@@ -77,15 +78,32 @@ def take_photo_and_save(user_id):
         camera.capture(filename)
         return filename
         
-            
-        
     except Exception as e:
         print(f"error: {str(e)}")
         return None
     finally:
         camera.stop_preview()
+
+# Function to save the last access of the user    
+def save_last_attendance(user_id):
+    try:
+        # Fetch the last attendance record for the user
+        cursor.execute("SELECT * FROM attendance WHERE user_id=%s ORDER BY id DESC LIMIT 1", (user_id,))
+        result = cursor.fetchone()
         
-        
+        if cursor.rowcount >= 1:
+            # Update the last_access in the attendance table
+            cursor.execute("UPDATE attendance SET last_access=NOW() WHERE id=%s", (result[0],))
+            
+            # Update the last_attendance in the users table
+            cursor.execute("UPDATE users SET last_attendance=NOW() WHERE id=%s", (user_id,))
+            
+            # Commit the transaction
+            db.commit()
+    except Exception as e:
+        logging.error(f"Error updating last attendance: {str(e)}")
+        db.rollback()
+
 
 try:
     while True:
