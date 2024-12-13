@@ -78,17 +78,17 @@ def take_photo_and_save(user_id):
 # Function to save the last access of the user    
 def save_last_attendance(user_id):
     try:
-        # Fetch the last attendance record for the user
-        cursor.execute("SELECT * FROM attendance WHERE user_id=%s ORDER BY id DESC LIMIT 1", (user_id,))
+        # Fetch out the last attendance 'timestamp' for the selected 'user_id'
+        cursor.execute("SELECT timestamp FROM attendance WHERE user_id=%s ORDER BY id DESC LIMIT 1", (user_id,))
         result = cursor.fetchone()
         
-        if cursor.rowcount >= 1:
-            # Update the last_access in the attendance table
-            cursor.execute("UPDATE attendance SET last_access=NOW() WHERE id=%s", (result[0],))
+        # Update the last_attendance in the users table  
+        if result:
+            last_access_timestamp = result[0]
             
-            # Update the last_attendance in the users table
-            cursor.execute("UPDATE users SET last_attendance=NOW() WHERE id=%s", (user_id,))
-            
+            # Add the latest attendance time of user to the 'user' table
+            cursor.execute("UPDATE users SET last_attendance=%s WHERE id=%s", (last_access_timestamp, user_id))
+            print("Last attendance updated successfully")
             # Commit the transaction
             db.commit()
     except Exception as e:
@@ -101,7 +101,7 @@ try:
         print("Place card to record attendance")
         id, text = reader.read()
         cursor.execute("Select * FROM users WHERE rfid_uid="+str(id))
-        # Assign the badge readed to variable 'result'
+        # Assign the info readed to variable 'result': id | name | id_rfid 
         result=cursor.fetchone()
         if cursor.rowcount >= 1:
             turn_green_on()
@@ -111,6 +111,9 @@ try:
             cursor.execute("INSERT INTO attendance (user_id, image_path) VALUES (%s, %s)",(result[0], image_path))
             
             db.commit()
+            
+            #Update the last attendance
+            save_last_attendance(result[0])
         else:
             turn_red_on()
             print("TAG n°"+str(id)+" - User does not exist.")
@@ -118,5 +121,6 @@ try:
         turn_both_off()
 finally:
     turn_both_off()
+    
     GPIO.cleanup()
 
