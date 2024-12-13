@@ -68,6 +68,10 @@ def get_db_connection():
 def index():
     return render_template('index.html')
 
+@app.route('/members')
+def show_members():
+    return render_template('members.html')
+
 @app.route('/attendance')
 def show_attendance():
     connection = get_db_connection()
