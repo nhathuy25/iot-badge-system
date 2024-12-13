@@ -3,12 +3,31 @@ import time
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import mysql.connector
+import logging
 
 #importation pour la Camera
 from picamera import PiCamera
 from time import sleep
 from datetime import datetime
 
+camera = PiCamera()
+camera.resolution = (1280, 720)
+camera.framerate = 30
+camera.vflip = True #Inverser la camera
+
+db=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="root",
+    database="attendancesystem"
+)
+
+cursor = db.cursor()
+reader = SimpleMFRC522()
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+# GPIO.cleanup()
 
 LED_RED = 3
 LED_GREEN = 5
@@ -17,6 +36,7 @@ LED_GREEN = 5
 def turn_led_on(led):
     GPIO.setup(led, GPIO.OUT) #active le contrôle du GPIO
     GPIO.output(led, GPIO.HIGH) #allume la led("/home/admin/Projet_IOT_ACAD_2024/Capture_images")
+
     
 #définit la fonction permettant d'éteindre une led
 def turn_led_off(led):
@@ -35,7 +55,9 @@ def turn_both_off():
     turn_led_off(LED_GREEN)
     turn_led_off(LED_RED)
 
-def take_photo_and_save(user_id):
+turn_both_off()
+
+def take_photo_and_save(user_id=None):
     try:
         #Generate a filename using current timestamp to save differents images
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -52,50 +74,56 @@ def take_photo_and_save(user_id):
         return None
     finally:
         camera.stop_preview()
-        
-if __name__ == __main__:
-    camera = PiCamera()
-    camera.resolution = (1280, 720)
-    camera.framerate = 30
-    camera.vflip = True #Inverser la camera
 
-    db=mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd="root",
-        database="attendancesystem"
-    )
-
-    cursor = db.cursor()
-    reader = SimpleMFRC522()
-
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BOARD)
-    # GPIO.cleanup()
-    
-    turn_both_off()	
+# Function to save the last access of the user    
+def save_last_attendance(user_id):
     try:
-        while True:
-            print("Place card to record attendance")
-            id, text = reader.read()
-            cursor.execute("Select * FROM users WHERE rfid_uid="+str(id))
-            # Assign the badge readed to variable 'result'
-            result=cursor.fetchone()
-            if cursor.rowcount >= 1:
-                turn_green_on()
-                print("Welcome "+result[1]+" - ID n°"+str(result[0]))
-                # Open the camera and save the access information
-                image_path = take_photo_and_save(result[0])
-                cursor.execute("INSERT INTO attendance (user_id, image_path) VALUES (%s, %s)",(result[0], image_path))
-                
-                db.commit()
-            else:
-                turn_red_on()
-                print("TAG n°"+str(id)+" - User does not exist.")
-            time.sleep(2)
-            turn_both_off()
-    finally:
+        # Fetch out the last attendance 'timestamp' for the selected 'user_id'
+        cursor.execute("SELECT timestamp FROM attendance WHERE user_id=%s ORDER BY id DESC LIMIT 1", (user_id,))
+        result = cursor.fetchone()
+        
+        # Update the last_attendance in the users table  
+        if result:
+            last_access_timestamp = result[0]
+            
+            # Add the latest attendance time of user to the 'user' table
+            cursor.execute("UPDATE users SET last_attendance=%s WHERE id=%s", (last_access_timestamp, user_id))
+            print("Last attendance updated successfully")
+            # Commit the transaction
+            db.commit()
+    except Exception as e:
+        logging.error(f"Error updating last attendance: {str(e)}")
+        db.rollback()
+
+
+try:
+    while True:
+        print("Place card to record attendance")
+        id, text = reader.read()
+        cursor.execute("Select * FROM users WHERE rfid_uid="+str(id))
+        # Assign the info readed to variable 'result': id | name | id_rfid 
+        result=cursor.fetchone()
+        if cursor.rowcount >= 1:
+            turn_green_on()
+            print("Welcome "+result[1]+" - ID n°"+str(result[0]))
+            # Open the camera and save the access information
+            image_path = take_photo_and_save(result[0])
+            cursor.execute("INSERT INTO attendance (user_id, image_path) VALUES (%s, %s)",(result[0], image_path))
+            
+            db.commit()
+            
+            #Update the last attendance
+            save_last_attendance(result[0])
+        else:
+            turn_red_on()
+            print("TAG n°"+str(id)+" - User does not exist.")
+            image_path = take_photo_and_save(result[0])
+            cursor.execute("INSERT INTO attendance (user_id, image_path) VALUES (%s, %s)",("NULL", image_path))
+        time.sleep(2)
         turn_both_off()
-        GPIO.cleanup()
+finally:
+    turn_both_off()
+    
+    GPIO.cleanup()
 
 

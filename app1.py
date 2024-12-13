@@ -1,61 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file, jsonify
+from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
-import socket
-import os
-import netifaces
-import time
-import RPi.GPIO as GPIO
-from mfrc522 import SimpleMFRC522
+
 app = Flask(__name__)
 
-def get_ip_adress():
-    try:
-        if 'wlan0' in netifaces.interfaces():
-            addrs = netifaces.ifaddresses('wlan0')
-            if netifaces.AF_INET in addrs:
-                return addrs[netifaces.AF_INET][0]['addr']
-        
-        if 'eth0' in netifaces.interfaces():
-            addrs = netifaces.ifaddresses('eth0')
-            if netifaces.AF_INET in addrs:
-                return addrs[netifaces.AF_INET][0]['addr']
-            
-        return "No LAN found"
-    except Exception as e:
-        print(f"error: {e}")
-        return " could not get ip"
-reader=SimpleMFRC522()
-
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-
-LED_RED = 3
-LED_GREEN = 5
-
-#définit la fonction permettant d'allumer une led
-def turn_led_on(led):
-    GPIO.setup(led, GPIO.OUT) #active le contrôle du GPIO
-    GPIO.output(led, GPIO.HIGH) #allume la led
-    
-#définit la fonction permettant d'éteindre une led
-def turn_led_off(led):
-    GPIO.setup(led, GPIO.OUT) #active le contrôle du GPIO
-    GPIO.output(led, GPIO.LOW) #éteind la led
-    
-def turn_red_on():
-    turn_led_off(LED_GREEN)
-    turn_led_on(LED_RED)
-    
-def turn_green_on():
-    turn_led_on(LED_GREEN)
-    turn_led_off(LED_RED)
-    
-def turn_both_off():
-    turn_led_off(LED_GREEN)
-    turn_led_off(LED_RED)
-
-
-turn_both_off()
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
@@ -157,7 +104,7 @@ def add_user():
             cursor.close()
             connection.close()
         except mysql.connector.Error as err:
-            print(f"Error: {err}")
+            print(f"Lỗi: {err}")
             
     return redirect(url_for('show_users'))
 
@@ -171,15 +118,16 @@ def delete_user(id):
         cursor.close()
         connection.close()
     except mysql.connector.Error as err:
-        print(f"Error: {err}")
+        print(f"Lỗi: {err}")
         
     return redirect(url_for('show_users'))
+    
 @app.route('/register_rfid', methods=['GET'])
 def register_rfid():
     try:
         print("Waiting for card...")
         id, text = reader.read()
-        turn_green_on()
+        
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
         
@@ -204,29 +152,5 @@ def register_rfid():
             
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-        
-@app.route('/update_user', methods=['POST'])
-def update_user():
-    if request.method == 'POST':
-        user_id = request.form['id']
-        name = request.form['name']
-        rfid_uid = request.form['rfid_uid']
-        
-        try:
-            connection = get_db_connection()
-            cursor = connection.cursor()
-            cursor.execute("UPDATE users SET name=%s, rfid_uid=%s WHERE id=%s", 
-                         (name, rfid_uid, user_id))
-            connection.commit()
-            cursor.close()
-            connection.close()
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            
-    return redirect(url_for('show_users'))
-
 if __name__ == '__main__':
-    ip = get_ip_adress()
-    print(f"\nLocal IP Adress: http://{ip}:5000")
-    print(f"\nLocalhost : http://127.0.0.1:5000")
     app.run(debug=True, host='0.0.0.0')

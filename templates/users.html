@@ -46,15 +46,39 @@
             border-radius: 3px;
             cursor: pointer;
         }
+        .rfid-section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+        }
+        .rfid-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .scanning {
+            display: none;
+            margin-top: 10px;
+            color: #2196F3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>User Database Management</h1>
-        
+          <!-- RFID Registration Section -->
+        <div class="rfid-section">
+            <h2>Register with RFID Card</h2>
+            <button id="startRfid" class="rfid-btn">Start RFID Scanner</button>
+            <p id="scanning" class="scanning">Waiting for card... Please scan your RFID card.</p>
+        </div>
         <div class="add-form">
             <h2>Add New User</h2>
-            <form action="{{ url_for('add_user') }}" method="POST">
+            <form id="userForm" action="{{ url_for('add_user') }}" method="POST">
                 <div class="form-group">
                     <label for="id">ID:</label>
                     <input type="number" id="id" name="id" required>
@@ -99,5 +123,46 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        function startRfidScan() {
+            document.getElementById('scanning').style.display = 'block';
+            document.getElementById('startRfid').disabled = true;
+
+            // Polling để check RFID
+            const checkRfid = setInterval(() => {
+                fetch('/register_rfid')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'new') {
+                            clearInterval(checkRfid);
+                            document.getElementById('rfid_uid').value = data.rfid;
+                            document.getElementById('scanning').style.display = 'none';
+                            document.getElementById('startRfid').disabled = false;
+                            alert('RFID detected! Please fill in other details.');
+                        } else if (data.status === 'exists') {
+                            clearInterval(checkRfid);
+                            if (confirm('This RFID is already registered. Do you want to update the user info?')) {
+                                document.getElementById('id').value = data.user.id;
+                                document.getElementById('name').value = data.user.name;
+                                document.getElementById('rfid_uid').value = data.rfid;
+                                document.getElementById('userForm').action = "{{ url_for('update_user') }}";
+                            }
+                            document.getElementById('scanning').style.display = 'none';
+                            document.getElementById('startRfid').disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        clearInterval(checkRfid);
+                        document.getElementById('scanning').style.display = 'none';
+                        document.getElementById('startRfid').disabled = false;
+                        alert('Error scanning RFID');
+                    });
+            }, 1000);
+        }
+
+        document.getElementById('startRfid').addEventListener('click', startRfidScan);
+    </script>
 </body>
 </html>

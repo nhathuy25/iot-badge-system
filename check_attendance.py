@@ -57,7 +57,7 @@ def turn_both_off():
 
 turn_both_off()
 
-def take_photo_and_save(user_id):
+def take_photo_and_save(user_id=None):
     try:
         #Generate a filename using current timestamp to save differents images
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -117,6 +117,9 @@ try:
         else:
             turn_red_on()
             print("TAG n°"+str(id)+" - User does not exist.")
+            image_path = take_photo_and_save()
+            cursor.execute("INSERT INTO attendance (user_id, image_path) VALUES (NULL, %s)",(image_path,))
+            db.commit()
         time.sleep(2)
         turn_both_off()
 finally:
