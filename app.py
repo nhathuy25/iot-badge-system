@@ -41,7 +41,7 @@ def add_user():
             cursor.close()
             connection.close()
         except mysql.connector.Error as err:
-            print(f"Lỗi: {err}")
+            print(f"Error: {err}")
             
     return redirect(url_for('show_users'))
 

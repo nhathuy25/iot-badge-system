@@ -9,15 +9,6 @@ from picamera import PiCamera
 from time import sleep
 from datetime import datetime
 
-'''
-#Fonction test capture d'image du camera
-camera = PiCamera()
-camera.start_preview(alpha=192)
-sleep(1)
-camera.capture("/home/admin/Projet_IOT_ACAD_2024/Capture_images")
-camera.stop_preview()
-'''
-
 camera = PiCamera()
 camera.resolution = (1280, 720)
 camera.framerate = 30
@@ -77,8 +68,6 @@ def take_photo_and_save(user_id):
         camera.capture(filename)
         return filename
         
-            
-        
     except Exception as e:
         print(f"error: {str(e)}")
         return None
@@ -92,22 +81,14 @@ try:
         print("Place card to record attendance")
         id, text = reader.read()
         cursor.execute("Select * FROM users WHERE rfid_uid="+str(id))
+        # Assign the badge readed to variable 'result'
         result=cursor.fetchone()
         if cursor.rowcount >= 1:
             turn_green_on()
             print("Welcome "+result[1]+" - ID n°"+str(result[0]))
+            # Open the camera and save the access information
             image_path = take_photo_and_save(result[0])
             cursor.execute("INSERT INTO attendance (user_id, image_path) VALUES (%s, %s)",(result[0], image_path))
-            
-            '''
-            print("Smile!!! Let's take a photo de vérification")
-            camera.start_preview()
-            camera.capture("/home/admin/Projet_IOT_ACAD_2024/Capture_images/test_{counter}_{timestamps}.jpg")
-            time.sleep(1)
-            camera.stop_preview()
-            '''
-            
-          
             
             db.commit()
         else:
@@ -119,4 +100,3 @@ finally:
     turn_both_off()
     GPIO.cleanup()
 
- 
