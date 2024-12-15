@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access History</title>
+    <link rel="stylesheet" href="/static/styles.css" />
     <style>
+        /* Các kiểu CSS của trang */
         .container {
-            width: 95%;
-            margin: 0 auto;
+            width: 80%;
+            margin: 30px auto;
             padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
+
         /* Styles cho phần filter */
         .filters {
             margin: 20px 0;
@@ -51,24 +59,34 @@
             margin-left: 10px;
             text-decoration: none;
         }
+
         /* Styles cho bảng */
+        /* Bo tròn góc của bảng */
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate; /* Sử dụng separate để áp dụng border-radius */
+            border-spacing: 0; /* Loại bỏ khoảng cách giữa các ô */
             margin-top: 20px;
+            border-radius: 15px; /* Bo tròn các góc của bảng */
+            overflow: hidden; /* Đảm bảo các góc bị cắt đúng */
         }
+
         th, td {
             padding: 12px;
-            border: 1px solid #ddd;
             text-align: left;
+            border: 1px solid #ddd; /* Đường viền cho các ô */
+            border-radius: 10px; /* Bo tròn các góc của ô */
         }
+
         th {
             background-color: #f5f5f5;
             font-weight: bold;
         }
+
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
         .unknown-user {
             color: red;
             font-style: italic;
@@ -93,6 +111,7 @@
             color: red;
             font-weight: bold;
         }
+
         /* Stats box styles */
         .stats {
             margin: 20px 0;
@@ -101,6 +120,7 @@
             border-radius: 5px;
             font-size: 16px;
         }
+
         /* Modal styles */
         .modal {
             display: none;
@@ -131,19 +151,29 @@
     </style>
 </head>
 <body>
+    <header>
+        <h1>IoT Project</h1>
+        <p>Innovating the Future with IoT Solutions</p>
+    </header>
+    <!-- Navigation Bar -->
     <nav>
         <a href="/">Home</a>
+        <a href="/members">Members</a>
         <a href="/users">Users</a>
+        <a href="/attendance">History</a>
     </nav>
+
+    <!-- Main Content -->
     <div class="container">
         <h1>Access History</h1>
 
         <!-- Filter Section -->
-        <div class="filters">
+        <section class="filters">
             <form method="GET">
+                <!-- User Filter -->
                 <div class="filter-group">
-                    <label>User:</label>
-                    <select name="user_id">
+                    <label for="user_id">User:</label>
+                    <select name="user_id" id="user_id">
                         <option value="">All Users</option>
                         {% for user in users %}
                             <option value="{{ user.id }}" {% if selected_user|string == user.id|string %}selected{% endif %}>
@@ -152,30 +182,33 @@
                         {% endfor %}
                     </select>
                 </div>
-                
+
+                <!-- Date Filter -->
                 <div class="filter-group">
-                    <label>Date:</label>
-                    <input type="date" name="date" value="{{ selected_date }}">
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" id="date" value="{{ selected_date }}">
                 </div>
-                
+
+                <!-- Status Filter -->
                 <div class="filter-group">
-                    <label>Status:</label>
-                    <select name="status">
+                    <label for="status">Status:</label>
+                    <select name="status" id="status">
                         <option value="">All Status</option>
                         <option value="authorized" {% if selected_status == 'authorized' %}selected{% endif %}>Authorized</option>
                         <option value="unauthorized" {% if selected_status == 'unauthorized' %}selected{% endif %}>Unauthorized</option>
                     </select>
                 </div>
-                
+
+                <!-- Apply Filters -->
                 <div class="button-group">
                     <button type="submit" class="apply-btn">Apply Filters</button>
                     <a href="{{ url_for('show_attendance') }}" class="clear-btn">Clear Filters</a>
                 </div>
             </form>
-        </div>
+        </section>
 
         <!-- Stats Section -->
-        <div class="stats">
+        <section class="stats">
             <strong>Results:</strong> {{ records|length }} records found
             {% if selected_date %}
                 for {{ selected_date }}
@@ -185,50 +218,52 @@
                     for {{ user.name }}
                 {% endfor %}
             {% endif %}
-        </div>
+        </section>
 
         <!-- Table Section -->
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>User Info</th>
-                    <th>Time</th>
-                    <th>Capture Image</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in records %}
-                <tr>
-                    <td>{{ record.id }}</td>
-                    <td>
-                        {% if record.name %}
-                            <strong>{{ record.name }}</strong><br>
-                            <small>RFID: {{ record.rfid_uid }}</small>
-                        {% else %}
-                            <span class="unknown-user">Unknown User</span>
-                        {% endif %}
-                    </td>
-                    <td class="timestamp">{{ record.timestamp }}</td>
-                    <td>
-                        {% set image_name = record.image_path.split('/')[-1] %}
-                        <img src="{{ url_for('serve_image', image_path=image_name) }}" 
-                             class="capture-image" 
-                             onclick="showImage(this.src)"
-                             alt="Access Capture">
-                    </td>
-                    <td>
-                        {% if record.name %}
-                            <span class="status-authorized">Authorized</span>
-                        {% else %}
-                            <span class="status-unauthorized">Unauthorized</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>User Info</th>
+                        <th>Time</th>
+                        <th>Capture Image</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.id }}</td>
+                        <td>
+                            {% if record.name %}
+                                <strong>{{ record.name }}</strong><br>
+                                <small>RFID: {{ record.rfid_uid }}</small>
+                            {% else %}
+                                <span class="unknown-user">Unknown User</span>
+                            {% endif %}
+                        </td>
+                        <td class="timestamp">{{ record.timestamp }}</td>
+                        <td>
+                            {% set image_name = record.image_path.split('/')[-1] %}
+                            <img src="{{ url_for('serve_image', image_path=image_name) }}" 
+                                 class="capture-image" 
+                                 onclick="showImage(this.src)"
+                                 alt="Access Capture">
+                        </td>
+                        <td>
+                            {% if record.name %}
+                                <span class="status-authorized">Authorized</span>
+                            {% else %}
+                                <span class="status-unauthorized">Unauthorized</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </div>
 
     <!-- Modal for image preview -->
@@ -237,6 +272,7 @@
         <img class="modal-content" id="modalImage">
     </div>
 
+    <!-- Image Preview Script -->
     <script>
         function showImage(src) {
             var modal = document.getElementById("imageModal");
@@ -256,5 +292,6 @@
             }
         }
     </script>
+
 </body>
 </html>

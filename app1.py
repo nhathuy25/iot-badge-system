@@ -15,6 +15,18 @@ def get_db_connection():
 def index():
     return render_template('index.html')
 
+@app.route("/members")
+def members():
+    return render_template("members.html")
+
+@app.route("/users")
+def users():
+    return render_template("users.html")
+
+@app.route("/attendance")
+def attendance():
+    return render_template("attendance.html")
+
 @app.route('/attendance')
 def show_attendance():
     connection = get_db_connection()
@@ -152,5 +164,27 @@ def register_rfid():
             
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/update_user', methods=['POST'])
+def update_user():
+    if request.method == 'POST':
+        user_id = request.form['id']
+        name = request.form['name']
+        rfid_uid = request.form['rfid_uid']
+        
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor()
+            cursor.execute("UPDATE users SET name=%s, rfid_uid=%s WHERE id=%s", 
+                         (name, rfid_uid, user_id))
+            connection.commit()
+            cursor.close()
+            connection.close()
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+            
+    return redirect(url_for('show_users'))
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
