@@ -1,212 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Database</title>
     <link rel="stylesheet" href="/static/styles.css" />
     <style>
-        .container {
-            width: 80%;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        .add-form, .rfid-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .add-form {
-            background-color: #f9f9f9;
-        }
-        .form-group {
-            margin: 15px 0;
-        }
-        .form-group label {
-            display: block;
-            font-weight: bold;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .submit-btn, .rfid-btn, .delete-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .rfid-btn {
-            background-color: #2196F3;
-        }
-        .delete-btn {
-            background-color: #ff4444;
-            padding: 8px 15px;
-            border-radius: 3px;
-        }
-        .delete-btn:hover {
-            background-color: #ff0000;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f9;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .scanning {
-            display: none;
-            color: #2196F3;
-            margin-top: 10px;
-        }
+      .container {
+        width: 80%;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      .add-form,
+      .rfid-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .add-form {
+        background-color: #f9f9f9;
+      }
+      .form-group {
+        margin: 15px 0;
+      }
+      .form-group label {
+        display: block;
+        font-weight: bold;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .submit-btn,
+      .rfid-btn,
+      .delete-btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .rfid-btn {
+        background-color: #2196f3;
+      }
+      .delete-btn {
+        background-color: #ff4444;
+        padding: 8px 15px;
+        border-radius: 3px;
+      }
+      .delete-btn:hover {
+        background-color: #ff0000;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      th {
+        background-color: #f4f4f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+      .scanning {
+        display: none;
+        color: #2196f3;
+        margin-top: 10px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Header: Thông tin tiêu đề -->
     <header>
-        <h1>IoT Project</h1>
-        <p>Innovating the Future with IoT Solutions</p>
+      <h1>IoT Project</h1>
+      <p>Access control badge-vision with RaspberryPi</p>
     </header>
 
     <!-- Navigation Bar -->
     <nav>
-        <a href="/">Home</a>
-        <a href="/members">Members</a>
-        <a href="/users">Users</a>
-        <a href="/attendance">History</a>
+      <a href="/">Home</a>
+      <a href="/members">Members</a>
+      <a href="/users">Users</a>
+      <a href="/attendance">History</a>
     </nav>
 
     <main>
-        <div class="container">
-            <h1>User Database Management</h1>
-    
-            <!-- RFID Registration Section -->
-            <section class="rfid-section">
-                <h2>Register with RFID Card</h2>
-                <button id="startRfid" class="rfid-btn">Start RFID Scanner</button>
-                <p id="scanning" class="scanning">Waiting for card... Please scan your RFID card.</p>
-            </section>
-    
-            <!-- Add New User Form -->
-            <section class="add-form">
-                <h2>Add New User</h2>
-                <form id="userForm" action="{{ url_for('add_user') }}" method="POST">
-                    <div class="form-group">
-                        <label for="id">ID:</label>
-                        <input type="number" id="id" name="id" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="rfid_uid">RFID UID:</label>
-                        <input type="text" id="rfid_uid" name="rfid_uid" required>
-                    </div>
-                    <button type="submit" class="submit-btn">Add User</button>
-                </form>
-            </section>
-    
-            <!-- User List Section -->
-            <section>
-                <h2>User List</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>RFID UID</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                        <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.rfid_uid }}</td>
-                            <td>
-                                <a href="{{ url_for('delete_user', id=user.id) }}" 
-                                   class="delete-btn"
-                                   onclick="return confirm('Are you sure you want to delete this user?')">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </section>
-        </div>
-    </main>    
+      <div class="container">
+        <h1>User Database Management</h1>
+
+        <!-- RFID Registration Section -->
+        <section class="rfid-section">
+          <h2>Register with RFID Card</h2>
+          <button id="startRfid" class="rfid-btn">Start RFID Scanner</button>
+          <p id="scanning" class="scanning">
+            Waiting for card... Please scan your RFID card.
+          </p>
+        </section>
+
+        <!-- Add New User Form -->
+        <section class="add-form">
+          <h2>Add New User</h2>
+          <form id="userForm" action="{{ url_for('add_user') }}" method="POST">
+            <div class="form-group">
+              <label for="id">ID:</label>
+              <input type="number" id="id" name="id" required />
+            </div>
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="rfid_uid">RFID UID:</label>
+              <input type="text" id="rfid_uid" name="rfid_uid" required />
+            </div>
+            <button type="submit" class="submit-btn">Add User</button>
+          </form>
+        </section>
+
+        <!-- User List Section -->
+        <section>
+          <h2>User List</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>RFID UID</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.rfid_uid }}</td>
+                <td>
+                  <a
+                    href="{{ url_for('delete_user', id=user.id) }}"
+                    class="delete-btn"
+                    onclick="return confirm('Are you sure you want to delete this user?')"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </main>
 
     <script>
-        // JavaScript xử lý RFID
-        function startRfidScan() {
-            document.getElementById('scanning').style.display = 'block';
-            document.getElementById('startRfid').disabled = true;
+      // JavaScript xử lý RFID
+      function startRfidScan() {
+        document.getElementById("scanning").style.display = "block";
+        document.getElementById("startRfid").disabled = true;
 
-            const checkRfid = setInterval(() => {
-                fetch('/register_rfid')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'new') {
-                            clearInterval(checkRfid);
-                            document.getElementById('rfid_uid').value = data.rfid;
-                            document.getElementById('scanning').style.display = 'none';
-                            document.getElementById('startRfid').disabled = false;
-                            alert('RFID detected! Please fill in other details.');
-                        } else if (data.status === 'exists') {
-                            clearInterval(checkRfid);
-                            if (confirm('This RFID is already registered. Do you want to update the user info?')) {
-                                document.getElementById('id').value = data.user.id;
-                                document.getElementById('name').value = data.user.name;
-                                document.getElementById('rfid_uid').value = data.rfid;
-                                document.getElementById('userForm').action = "{{ url_for('update_user') }}";
-                            }
-                            document.getElementById('scanning').style.display = 'none';
-                            document.getElementById('startRfid').disabled = false;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        clearInterval(checkRfid);
-                        document.getElementById('scanning').style.display = 'none';
-                        document.getElementById('startRfid').disabled = false;
-                        alert('Error scanning RFID');
-                    });
-            }, 1000);
-        }
+        const checkRfid = setInterval(() => {
+          fetch("/register_rfid")
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "new") {
+                clearInterval(checkRfid);
+                document.getElementById("rfid_uid").value = data.rfid;
+                document.getElementById("scanning").style.display = "none";
+                document.getElementById("startRfid").disabled = false;
+                alert("RFID detected! Please fill in other details.");
+              } else if (data.status === "exists") {
+                clearInterval(checkRfid);
+                if (
+                  confirm(
+                    "This RFID is already registered. Do you want to update the user info?"
+                  )
+                ) {
+                  document.getElementById("id").value = data.user.id;
+                  document.getElementById("name").value = data.user.name;
+                  document.getElementById("rfid_uid").value = data.rfid;
+                  document.getElementById("userForm").action =
+                    "{{ url_for('update_user') }}";
+                }
+                document.getElementById("scanning").style.display = "none";
+                document.getElementById("startRfid").disabled = false;
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              clearInterval(checkRfid);
+              document.getElementById("scanning").style.display = "none";
+              document.getElementById("startRfid").disabled = false;
+              alert("Error scanning RFID");
+            });
+        }, 1000);
+      }
 
-        document.getElementById('startRfid').addEventListener('click', startRfidScan);
+      document
+        .getElementById("startRfid")
+        .addEventListener("click", startRfidScan);
     </script>
 
     <!-- Footer -->
     <footer>
-        <div style="background-color: #333; color: white; text-align: center; padding: 20px;">
-            <p>&copy; 2024 Your Company. All rights reserved.</p>
-        </div>
+      <div
+        style="
+          background-color: #333;
+          color: white;
+          text-align: center;
+          padding: 20px;
+        "
+      >
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+      </div>
     </footer>
-</body>
+  </body>
 </html>
