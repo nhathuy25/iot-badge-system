@@ -67,6 +67,7 @@ nav a.active {
     text-align: center;
     background-color: #fff;
     margin: 20px 0;
+    margin-left: 20px;
     padding-bottom: 50px; /* Tạo thêm không gian cho phần dưới của trang */
 }
 
@@ -125,6 +126,10 @@ footer {
     }
 }
 
+.label {
+    margin: 0 20px;
+}
+
 /* Các phần trong tools-container */
 .tools-container {
     display: flex;
@@ -149,6 +154,8 @@ footer {
 
 .tool-card img {
     height: 80px;
+    width: auto;
+    border-radius: 0px;
     margin-bottom: 15px;
 }
 
@@ -284,7 +291,7 @@ footer {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
-    width: 250px;
+    width: 220px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
