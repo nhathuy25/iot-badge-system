@@ -9,8 +9,6 @@ Our goal is to develop a system for NFC/RFID badge detection integrated with fac
 1. **Badge authentication** – The system verifies the badge information against an internal database.
 2. **Facial recognition** – If the badge is valid, the system captures the user's face and compares it with stored facial patterns for verification.
 
----
-
 ## How It Works
 
 ![Functionality scheme](img/schema_fonctionnement.png)
@@ -21,8 +19,6 @@ The diagram above illustrates the step-by-step verification process:
 2. If the information is valid, the system activates a low-resolution camera to capture the user’s face.
 3. If the facial pattern matches the stored data (around 15–20 images per user), the system grants access and lights up a green LED.
 4. If the badge information is invalid or the face is not recognized, the system denies access and lights up a red LED.
-
----
 
 ## System Interconnection
 
@@ -35,8 +31,6 @@ We use a Flask API to host a web server that communicates via a Wi-Fi network an
 
 Each time an access attempt is made (authorized or not), the system records the user’s information and image in the database for tracking purposes.
 
----
-
 ## Database Management
 
 We developed a web interface using HTML and CSS for monitoring and managing access records and user information.
@@ -46,8 +40,6 @@ We developed a web interface using HTML and CSS for monitoring and managing acce
 
 - Another page allows administrators to manage user data, including adding or deleting badge IDs and user information. The system also supports automatic badge registration via the NFC/RFID reader.
 
----
-
 ## Facial Recognition
 
 Based on this [Raspberry Pi facial recognition tutorial](https://www.tomshardware.com/how-to/raspberry-pi-facial-recognition), we adapted the solution to our use case.
@@ -55,8 +47,6 @@ Based on this [Raspberry Pi facial recognition tutorial](https://www.tomshardwar
 - Each new user is required to provide multiple facial images from different angles.
 - The images are processed, trained, and stored using the **cv2**, **face_recognition**, and **pickle** libraries.
 - During badge scanning, the camera captures an image and matches the face with the stored data before logging the result in the access history.
-
----
 
 ## Future Improvements
 
