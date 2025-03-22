@@ -1,4 +1,4 @@
-# IoT Project: Facial Recognition Integrated Badge System
+# IoT Project: NFC/RFID Badge System with Facial Recognition Integrated
 
 ![img/front-img.png](img/front-img.png)
 
