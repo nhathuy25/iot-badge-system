@@ -2,6 +2,8 @@
 
 ![img/front-img.png](img/front-img.png)
 
+Group's members: Huy NGUYEN, Quoc Cuong NGUYEN, Khoa VU, Quoc Tan NGUYEN, Van Hieu HA
+
 This Internet of Things (IoT) project was developed as part of the Final Year Studies at INSA Centre Val de Loire, specializing in Acquisition, Analysis, and Decision (ACAD).
 
 Our goal is to develop a system for NFC/RFID badge detection integrated with facial recognition using a Raspberry Pi 3, a Pi Camera, and a badge reader as hardware peripherals. The system implements two-layer authentication:
